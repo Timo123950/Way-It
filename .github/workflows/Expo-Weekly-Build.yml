@@ -1,4 +1,4 @@
-name: Expo Daily CI
+name: Expo Weekly Build
 on:
   schedule:
     - cron: 0 8 * * MON
