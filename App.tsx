@@ -1,21 +1,38 @@
-import { StatusBar } from 'expo-status-bar';
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import React from "react";
+import * as Sentry from 'sentry-expo'
 
-export default function App() {
+import { NavigationContainer, DrawerActions } from "@react-navigation/native";
+import { createDrawerNavigator } from "@react-navigation/drawer";
+
+import DrawerContent from "./app/components/Drawer/Drawer";
+import HomeScreen from './app/screens/HomeScreen'
+import MapScreen from './app/screens/MapScreen'
+
+// Initializing of Sentry for Error and Crash Reports and Logs
+Sentry.init({
+  dsn: "https://47b0a6b743314f8596cc4771a15151ae@o448307.ingest.sentry.io/5429489",
+  enableInExpoDevelopment: true,
+  debug: true,
+})
+
+// Create the Drawer Navigator
+const Drawer = createDrawerNavigator();
+
+// Initialize the Drawer Navigator
+function DrawerNavigator() {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.tsx to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <Drawer.Navigator drawerContent={(props) => <DrawerContent {...props} />}>
+      <Drawer.Screen name="Home" component={HomeScreen} />
+      <Drawer.Screen name="Map" component={MapScreen} />
+    </Drawer.Navigator>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+// Initializing of the App
+export default function App() {
+  return (
+    <NavigationContainer>
+      <DrawerNavigator />
+    </NavigationContainer>
+  );
+}
