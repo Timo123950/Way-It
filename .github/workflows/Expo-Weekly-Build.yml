@@ -1,7 +1,7 @@
 name: Expo Daily CI
 on:
   schedule:
-    - cron: 0 8 * * *
+    - cron: 0 8 * * MON
 jobs:
   ci:
     name: Daily Continuous Integration
@@ -14,6 +14,8 @@ jobs:
       - uses: expo/expo-github-action@v5
         with:
           expo-version: 3.x
+          expo-username: ${{ secrets.EXPO_CLI_USERNAME }}
+          expo-password: ${{ secrets.EXPO_CLI_PASSWORD }}
       - run: yarn install
       - run: yarn test
-      - run: expo build:android
+      - run: expo build:android -t apk --release-channel android
